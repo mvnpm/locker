@@ -49,9 +49,9 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         lockerPom.write(projectDependencies().filter(filters));
         final Model model = project.getModel();
         final Optional<Profile> existingLockerProfile = model.getProfiles().stream()
-                .filter(p -> p.getId().equals("locker")).findFirst();
+                .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
         if (existingLockerProfile.isEmpty()) {
-            getLog().info("Adding 'locker' profile " + (standalone ? "(standalone) " : "") + "to the pom.xml...");
+            getLog().info("Adding '"+LOCKER_PROFILE+"' profile " + (standalone ? "(standalone) " : "") + "to the pom.xml...");
             addProfileToPom();
         } else {
             getLog().info("'locker' profile is present in the pom.xml");
