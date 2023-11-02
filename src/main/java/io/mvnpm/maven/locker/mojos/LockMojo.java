@@ -36,8 +36,6 @@ public final class LockMojo extends AbstractDependencyLockMojo {
     @Parameter(property = "locker.filter", defaultValue = "org.mvnpm*,org.webjars*")
     private List<String> filters;
 
-
-
     @Override
     public void execute() throws MojoExecutionException {
         if (project.getActiveProfiles().stream().map(Profile::getId).anyMatch(LOCKER_PROFILE::equals)) {
@@ -51,10 +49,11 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         final Optional<Profile> existingLockerProfile = model.getProfiles().stream()
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
         if (existingLockerProfile.isEmpty()) {
-            getLog().info("Adding '"+LOCKER_PROFILE+"' profile " + (standalone ? "(standalone) " : "") + "to the pom.xml...");
+            getLog().info(
+                    "Adding '" + LOCKER_PROFILE + "' profile " + (standalone ? "(standalone) " : "") + "to the pom.xml...");
             addProfileToPom();
         } else {
-            getLog().info("'locker' profile is present in the pom.xml");
+            getLog().info("'" + LOCKER_PROFILE + "' profile is present in the pom.xml");
         }
 
     }
