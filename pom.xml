@@ -8,11 +8,11 @@
 
   <name>mvnpm locker</name>
   <description>mvnpm locker Maven plugin allow you to lock your dependencies versions.</description>
-  <url>https://github.com/mvnpm/mvnpm-locker</url>
+  <url>https://github.com/mvnpm/locker</url>
 
   <groupId>io.mvnpm</groupId>
-  <artifactId>mvnpm-locker-maven-plugin</artifactId>
-  <version>0.0.1</version>
+  <artifactId>locker-maven-plugin</artifactId>
+  <version>999-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
 
@@ -501,9 +501,9 @@
   </build>
 
   <scm>
-    <connection>scm:git:git@github.com:mvnpm/mvnpm-locker.git</connection>
-    <developerConnection>scm:git:git@github.com:mvnpm/mvnpm-locker.git</developerConnection>
-    <url>git@github.com:mvnpm/mvnpm-locker.git</url>
+    <connection>scm:git:git@github.com:mvnpm/locker.git</connection>
+    <developerConnection>scm:git:git@github.com:mvnpm/locker.git</developerConnection>
+    <url>git@github.com:mvnpm/locker.git</url>
     <tag>HEAD</tag>
   </scm>
 

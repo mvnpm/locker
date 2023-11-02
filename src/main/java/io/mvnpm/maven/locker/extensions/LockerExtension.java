@@ -23,7 +23,7 @@ import static io.mvnpm.maven.locker.LockerConstants.LOCK_GOAL_PREDICATE;
 import static io.mvnpm.maven.locker.LockerConstants.POM_SHA_512_PATH;
 
 @Singleton
-@Named("mvnpm-locker")
+@Named("locker")
 public class LockerExtension extends AbstractMavenLifecycleParticipant {
 
     private final Logger logger;
