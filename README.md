@@ -40,5 +40,5 @@ _This extension is optional, it is very helpful for standalone projects to allow
 ```
 
 Features:
-- Install the Locker BOM if needed (`.mvnpm-lock/pom.xml` before continuing on any goal (but `lock`)
+- Install the Locker BOM if needed (`locker/pom.xml` before continuing on any goal (but `lock`)
 - Ignore the `locker` profile when using the `lock` goal.
