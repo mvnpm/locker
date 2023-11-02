@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <profiles>
+        <profile>
+            <id>{lockerProfile}</id>
+            <activation>
+                {#if standalone}
+                <file>
+                    <exists>$\{basedir}/{pomShaPath}</exists>
+                </file>
+                {#else}
+                <activeByDefault>true</activeByDefault>
+                {/if}
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>{groupId}</groupId>
+                        <artifactId>{artifactId}-locker</artifactId>
+                        <version>$\{project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
+</project>

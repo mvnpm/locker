@@ -1,0 +1,8 @@
+.*.swp
+.*.un~
+.junk/
+.project
+.settings/
+target/
+/.idea/
+*.iml
