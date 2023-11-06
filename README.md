@@ -1,6 +1,6 @@
 # mvnpm locker Maven Plugin
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/mvnpm/locker/build.yaml?label=Build&branch=master)](https://github.com/mvnpm/locker/actions/workflows/build.yaml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/mvnpm/locker/build.yml?label=Build&branch=master)](https://github.com/mvnpm/locker/actions/workflows/build.yml)
 [![usefulness 100%](https://img.shields.io/badge/usefulness-100%25-success.svg?label=Usefulness)](https://www.google.com/search?q=pasta+machine)
 [![Maven Central](https://img.shields.io/maven-central/v/io.mvnpm/locker-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.mvnpm/locker-maven-plugin)
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)](https://www.apache.org/licenses/LICENSE-2.0)
