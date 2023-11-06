@@ -41,6 +41,9 @@
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <mrm-maven-plugin.version>1.2.0</mrm-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+    <formatter.plugin.version>2.23.0</formatter.plugin.version>
+    <impsort.plugin.version>1.9.0</impsort.plugin.version>
+    <quarkus.ide-config.version>3.5.0</quarkus.ide-config.version>
 
     <!-- Libraries -->
     <commons-io.version>2.11.0</commons-io.version>
@@ -58,6 +61,7 @@
     <stax2-api.version>4.2.1</stax2-api.version>
     <woodstox-core.version>6.4.0</woodstox-core.version>
     <maven-invoker.version>3.2.0</maven-invoker.version>
+
   </properties>
 
   <licenses>
@@ -341,48 +345,48 @@
 
   <build>
     <plugins>
-      <!--<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>${maven-enforcer-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>enforce-good-practices</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <phase>verify</phase>
-            <configuration>
-              <rules>
-                <requirePluginVersions />
-                <requireMavenVersion>
-                  <version>3.3</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>1.8</version>
-                </requireJavaVersion>
-                <requireUpperBoundDeps />
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>-->
-     <!-- <plugin>
-        <groupId>se.vandmo</groupId>
-        <artifactId>dependency-lock-maven-plugin</artifactId>
-        <version>${dependency-lock-maven-plugin.version}</version>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <version>${formatter.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-ide-config</artifactId>
+            <version>${quarkus.ide-config.version}</version>
+          </dependency>
+        </dependencies>
         <configuration>
-          <format>pom</format>
+          <configFile>eclipse-format.xml</configFile>
+          <lineEnding>LF</lineEnding>
         </configuration>
         <executions>
           <execution>
-            <id>check</id>
+            <phase>process-sources</phase>
             <goals>
-              <goal>check</goal>
+              <goal>format</goal>
             </goals>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
+      <plugin>
+        <groupId>net.revelc.code</groupId>
+        <artifactId>impsort-maven-plugin</artifactId>
+        <version>${impsort.plugin.version}</version>
+        <configuration>
+          <groups>java.,javax.,jakarta.,org.,com.</groups>
+          <staticGroups>*</staticGroups>
+          <removeUnused>true</removeUnused>
+        </configuration>
+        <executions>
+          <execution>
+            <id>sort-imports</id>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.eclipse.sisu</groupId>
         <artifactId>sisu-maven-plugin</artifactId>

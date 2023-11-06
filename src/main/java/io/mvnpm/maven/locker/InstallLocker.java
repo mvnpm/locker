@@ -1,7 +1,11 @@
 package io.mvnpm.maven.locker;
 
-import com.google.common.hash.Hashing;
-import io.fabric8.maven.Maven;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
@@ -15,15 +19,14 @@ import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.codehaus.plexus.logging.Logger;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.common.hash.Hashing;
+
+import io.fabric8.maven.Maven;
 
 public final class InstallLocker {
 
-    public static void installLocker(ArtifactRepository localRepository, Path lockerPom, Logger log) throws MavenExecutionException {
+    public static void installLocker(ArtifactRepository localRepository, Path lockerPom, Logger log)
+            throws MavenExecutionException {
         try {
             final Path lockerPomInRepo = pathOfLockPomInLocalRepo(localRepository, lockerPom);
             if (Files.exists(lockerPomInRepo)) {
@@ -58,7 +61,7 @@ public final class InstallLocker {
         final Model lockerModel = Maven.readModel(lockerPom);
 
         final DefaultArtifact lockerArtifact = new DefaultArtifact(lockerModel.getGroupId(), lockerModel.getArtifactId(),
-                lockerModel.getVersion(), "import", "pom",  null,  new DefaultArtifactHandler());
+                lockerModel.getVersion(), "import", "pom", null, new DefaultArtifactHandler());
         return Path.of(localRepository.getBasedir(), localRepository.pathOf(lockerArtifact) + ".pom");
     }
 

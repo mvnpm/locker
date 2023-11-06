@@ -1,20 +1,8 @@
 package io.mvnpm.maven.locker.mojos;
 
-import com.google.common.io.Resources;
-import io.fabric8.maven.Maven;
-import io.fabric8.maven.merge.SmartModelMerger;
-import io.mvnpm.maven.locker.pom.LockerPom;
-import io.mvnpm.maven.locker.pom.LockerPomFileAccessor;
-import io.mvnpm.maven.locker.LockerConstants;
-import io.mvnpm.maven.locker.pom.DefaultLockerPom;
-import io.quarkus.qute.Qute;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.Profile;
-import org.apache.maven.model.merge.ModelMerger;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import static io.mvnpm.maven.locker.LockerConstants.LOCKER_PROFILE;
+import static java.util.Locale.ROOT;
+import static org.apache.maven.plugins.annotations.ResolutionScope.TEST;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,9 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.mvnpm.maven.locker.LockerConstants.LOCKER_PROFILE;
-import static java.util.Locale.ROOT;
-import static org.apache.maven.plugins.annotations.ResolutionScope.TEST;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.Profile;
+import org.apache.maven.model.merge.ModelMerger;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+
+import com.google.common.io.Resources;
+
+import io.fabric8.maven.Maven;
+import io.fabric8.maven.merge.SmartModelMerger;
+import io.mvnpm.maven.locker.pom.DefaultLockerPom;
+import io.mvnpm.maven.locker.pom.LockerPom;
+import io.mvnpm.maven.locker.pom.LockerPomFileAccessor;
+import io.quarkus.qute.Qute;
 
 @Mojo(name = "lock", requiresDependencyResolution = TEST)
 public final class LockMojo extends AbstractDependencyLockMojo {
@@ -77,8 +77,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         final Map<String, Object> data = Map.of(
                 "lockerProfile", LOCKER_PROFILE,
                 "groupId", project.getGroupId(),
-                "artifactId", project.getArtifactId()
-        );
+                "artifactId", project.getArtifactId());
         return Qute.fmt(tpl, data);
     }
 }
