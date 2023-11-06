@@ -6,13 +6,7 @@
         <profile>
             <id>{lockerProfile}</id>
             <activation>
-                {#if standalone}
-                <file>
-                    <exists>$\{basedir}/{pomShaPath}</exists>
-                </file>
-                {#else}
                 <activeByDefault>true</activeByDefault>
-                {/if}
             </activation>
             <dependencyManagement>
                 <dependencies>

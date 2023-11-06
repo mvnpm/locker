@@ -1,14 +1,14 @@
 package io.mvnpm.maven.locker.pom;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import io.mvnpm.maven.locker.model.Artifact;
-import io.mvnpm.maven.locker.model.ArtifactIdentifier;
-import org.codehaus.stax2.XMLEventReader2;
+import static io.mvnpm.maven.locker.model.Artifact.DEFAULT_SCOPE;
+import static io.mvnpm.maven.locker.model.ArtifactIdentifier.DEFAULT_TYPE;
+import static java.lang.String.format;
+import static java.util.Locale.ROOT;
+import static javax.xml.stream.XMLInputFactory.IS_COALESCING;
+import static javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES;
+import static javax.xml.stream.XMLInputFactory.IS_VALIDATING;
+import static javax.xml.stream.XMLInputFactory.SUPPORT_DTD;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.Location;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -21,14 +21,17 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static io.mvnpm.maven.locker.model.Artifact.DEFAULT_SCOPE;
-import static io.mvnpm.maven.locker.model.ArtifactIdentifier.DEFAULT_TYPE;
-import static java.lang.String.format;
-import static java.util.Locale.ROOT;
-import static javax.xml.stream.XMLInputFactory.IS_COALESCING;
-import static javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES;
-import static javax.xml.stream.XMLInputFactory.IS_VALIDATING;
-import static javax.xml.stream.XMLInputFactory.SUPPORT_DTD;
+import javax.xml.namespace.QName;
+import javax.xml.stream.Location;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+
+import org.codehaus.stax2.XMLEventReader2;
+
+import com.ctc.wstx.stax.WstxInputFactory;
+
+import io.mvnpm.maven.locker.model.Artifact;
+import io.mvnpm.maven.locker.model.ArtifactIdentifier;
 
 public final class LockerPomReader {
 
@@ -144,7 +147,7 @@ public final class LockerPomReader {
         }
     }
 
-    private static List<Artifact.IntegrityBuilderStage> fromDependencies(XMLEventReader2 rdr)  {
+    private static List<Artifact.IntegrityBuilderStage> fromDependencies(XMLEventReader2 rdr) {
         try {
             List<Artifact.IntegrityBuilderStage> result = new ArrayList<>();
             while (rdr.hasNextEvent()) {
@@ -168,7 +171,6 @@ public final class LockerPomReader {
             throw new InvalidPomLockFileException(e);
         }
     }
-
 
     private static Map<String, String> extractIntegrityMap(XMLEventReader2 reader) throws XMLStreamException {
         Map<String, String> integrityMap = new HashMap<>();

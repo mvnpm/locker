@@ -4,7 +4,7 @@ import io.mvnpm.maven.locker.model.Artifacts;
 
 public interface LockerPom {
 
-  void write(Artifacts projectDependencies);
+    void write(Artifacts projectDependencies);
 
-  Artifacts read();
+    Artifacts read();
 }

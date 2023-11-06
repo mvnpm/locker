@@ -1,9 +1,10 @@
 package io.mvnpm.maven.locker.model;
 
-import junit.framework.TestCase;
+import static io.mvnpm.maven.locker.model.Artifacts.matchesWildcard;
+
 import org.junit.Test;
 
-import static io.mvnpm.maven.locker.model.Artifacts.matchesWildcard;
+import junit.framework.TestCase;
 
 public class ArtifactsTest extends TestCase {
     @Test
