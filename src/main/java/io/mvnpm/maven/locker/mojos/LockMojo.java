@@ -30,9 +30,6 @@ import static org.apache.maven.plugins.annotations.ResolutionScope.TEST;
 @Mojo(name = "lock", requiresDependencyResolution = TEST)
 public final class LockMojo extends AbstractDependencyLockMojo {
 
-    @Parameter(property = "locker.standalone", defaultValue = "true")
-    private boolean standalone;
-
     @Parameter(property = "locker.filter", defaultValue = "org.mvnpm*,org.webjars*")
     private List<String> filters;
 
@@ -52,7 +49,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
         if (existingLockerProfile.isEmpty()) {
             getLog().info(
-                    "Adding '" + LOCKER_PROFILE + "' profile " + (standalone ? "(standalone) " : "") + "to the pom.xml...");
+                    "Adding '" + LOCKER_PROFILE + "' profile to the pom.xml...");
             addProfileToPom();
         } else {
             getLog().info("'" + LOCKER_PROFILE + "' profile is present in the pom.xml");
@@ -79,8 +76,6 @@ public final class LockMojo extends AbstractDependencyLockMojo {
                 StandardCharsets.UTF_8);
         final Map<String, Object> data = Map.of(
                 "lockerProfile", LOCKER_PROFILE,
-                "pomShaPath", LockerConstants.POM_SHA_512_PATH,
-                "standalone", standalone,
                 "groupId", project.getGroupId(),
                 "artifactId", project.getArtifactId()
         );

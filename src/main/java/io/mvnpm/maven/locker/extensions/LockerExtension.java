@@ -20,7 +20,6 @@ import static io.mvnpm.maven.locker.InstallLocker.installLocker;
 import static io.mvnpm.maven.locker.LockerConstants.LOCKER_POM_PATH;
 import static io.mvnpm.maven.locker.LockerConstants.LOCKER_PROFILE;
 import static io.mvnpm.maven.locker.LockerConstants.LOCK_GOAL_PREDICATE;
-import static io.mvnpm.maven.locker.LockerConstants.POM_SHA_512_PATH;
 
 @Singleton
 @Named("locker")
@@ -38,34 +37,29 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
             throws MavenExecutionException {
 
         final Path lockerPom = Path.of(session.getRequest().getBaseDirectory(), LOCKER_POM_PATH);
-        final Path lockerHashPath = Path.of(session.getRequest().getBaseDirectory(), POM_SHA_512_PATH);
 
         if (session.getGoals().stream().anyMatch(LOCK_GOAL_PREDICATE)) {
-            prepareForLocking(session, lockerHashPath);
+            prepareForLocking(session);
         } else {
             // build
-            prepareForBuilding(session, lockerPom, lockerHashPath);
+            prepareForBuilding(session, lockerPom);
         }
     }
 
-    private void prepareForBuilding(MavenSession session, Path lockerPom, Path lockerHashPath) throws MavenExecutionException {
+    private void prepareForBuilding(MavenSession session, Path lockerPom) throws MavenExecutionException {
         final Model model = Maven.readModel(session.getRequest().getPom().toPath());
         final Optional<Profile> lockerProfile = model.getProfiles().stream()
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
+
+
 
         if (Files.exists(lockerPom)) {
             if (lockerProfile.isEmpty()) {
                 logger.warn("'" + LOCKER_PROFILE + "' profile not found in the pom.xml, remove the Locker BOM if it is not used.");
                 return;
             }
-            if (lockerProfile.get().getActivation().getFile() != null) {
-                // standalone mode
-                installLocker(lockerPom, lockerHashPath, logger);
-            } else {
-                if (lockerProfile.get().getActivation().isActiveByDefault()) {
-                   logger.info("'" + LOCKER_PROFILE + "' profile is active.");
-                }
-            }
+
+            installLocker(session.getLocalRepository(), lockerPom, logger);
         } else {
             if(lockerProfile.isPresent()) {
                 throw new MavenExecutionException("'" + LOCKER_PROFILE + "' profile found in the pom.xml but no Locker BOM found in: " + lockerPom, session.getRequest()
@@ -75,15 +69,7 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
     }
 
 
-    private void prepareForLocking(MavenSession session, Path lockerHashPath) throws MavenExecutionException {
-        try {
-            if (Files.exists(lockerHashPath)) {
-                logger.info("Deleting locker pom.xml hash");
-                Files.deleteIfExists(lockerHashPath);
-            }
-        } catch (IOException e) {
-            throw new MavenExecutionException("Error while deleting the locker pom.xml hash:", e);
-        }
+    private void prepareForLocking(MavenSession session) throws MavenExecutionException {
         session.getRequest().getInactiveProfiles().add(LOCKER_PROFILE);
     }
 

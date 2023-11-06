@@ -11,14 +11,8 @@ The mvnpm locker Maven Plugin will create a version locker BOM for your `org.mvn
 
 This will create a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
 
-For standalone projects (non multi-module):
 ```shell
 mvn io.mvnpm:locker-maven-plugin:0.0.1:lock
-```
-
-For multi-modules projects:
-```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.1:lock -Dlocker.standalone=false
 ```
 
 NOTE: if the the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
@@ -40,5 +34,5 @@ _This extension is optional, it is very helpful for standalone projects to allow
 ```
 
 Features:
-- Install the Locker BOM if needed (`locker/pom.xml` before continuing on any goal (but `lock`)
+- Install the Locker BOM (`locker/pom.xml`) in the local Maven repository if needed before loading the Maven project (on any goal but `lock`)
 - Ignore the `locker` profile when using the `lock` goal.
