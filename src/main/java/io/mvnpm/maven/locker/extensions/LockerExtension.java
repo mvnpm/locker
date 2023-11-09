@@ -36,19 +36,19 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
     @Override
     public void afterSessionStart(MavenSession session)
             throws MavenExecutionException {
-
-        final Path lockerPom = Path.of(session.getRequest().getBaseDirectory(), LOCKER_POM_PATH);
+        final Path pomPath = session.getRequest().getPom().toPath();
+        final Path lockerPom = pomPath.getParent().resolve(LOCKER_POM_PATH);
 
         if (session.getGoals().stream().anyMatch(LOCK_GOAL_PREDICATE)) {
             prepareForLocking(session);
         } else {
             // build
-            prepareForBuilding(session, lockerPom);
+            prepareForBuilding(session, pomPath, lockerPom);
         }
     }
 
-    private void prepareForBuilding(MavenSession session, Path lockerPom) throws MavenExecutionException {
-        final Model model = Maven.readModel(session.getRequest().getPom().toPath());
+    private void prepareForBuilding(MavenSession session, Path pomPath, Path lockerPom) throws MavenExecutionException {
+        final Model model = Maven.readModel(pomPath);
         final Optional<Profile> lockerProfile = model.getProfiles().stream()
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
 
@@ -63,7 +63,8 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
         } else {
             if (lockerProfile.isPresent()) {
                 throw new MavenExecutionException(
-                        "'" + LOCKER_PROFILE + "' profile found in the pom.xml but no Locker BOM found in: " + lockerPom,
+                        "'" + LOCKER_PROFILE + "' profile found in the '" + pomPath + "' but no Locker BOM found in: "
+                                + lockerPom,
                         session.getRequest()
                                 .getPom());
             }
