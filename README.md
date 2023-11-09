@@ -1,21 +1,22 @@
 # mvnpm locker Maven Plugin
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/mvnpm/locker/build.yml?label=Build&branch=master)](https://github.com/mvnpm/locker/actions/workflows/build.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/mvnpm/locker/build.yml?label=Build&branch=main)](https://github.com/mvnpm/locker/actions/workflows/build.yml)
 [![usefulness 100%](https://img.shields.io/badge/usefulness-100%25-success.svg?label=Usefulness)](https://www.google.com/search?q=pasta+machine)
 [![Maven Central](https://img.shields.io/maven-central/v/io.mvnpm/locker-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.mvnpm/locker-maven-plugin)
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)](https://www.apache.org/licenses/LICENSE-2.0)
 
 The mvnpm locker Maven Plugin will create a version locker BOM for your `org.mvnpm` and `org.webjars` dependencies.
+It is essential as NPM dependencies are over using ranges. After the locking, the quantity of files to download is considerably reduced (good for CI and contributors).
 
 ## Lock your mvnpm and webjars versions 
 
 This will create a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
 
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.3:lock
+mvn io.mvnpm:locker-maven-plugin:0.0.4:lock
 ```
 
-NOTE: if the the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
+NOTE: if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
 
 ## Add the locker extension (optional)
 
@@ -28,7 +29,7 @@ _This extension is optional, it is very helpful for standalone projects to allow
     <extension>
         <groupId>io.mvnpm</groupId>
         <artifactId>locker-maven-plugin</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </extension>
 </extensions>
 ```

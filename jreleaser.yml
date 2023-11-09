@@ -1,0 +1,19 @@
+project:
+  name: locker
+  description: mvnpm locker Maven plugin allow you to lock your dependencies versions.
+  longDescription: |
+    The mvnpm locker Maven Plugin will create a version locker BOM for your org.mvnpm and org.webjars dependencies.
+    It is essential as NPM dependencies are over using ranges. After the locking, the quantity of files to download is considerably reduced (good for CI and contributors).
+  authors:
+    - Andy Damevin
+  license: Apache-2.0
+  links:
+    homepage: https://github.com/mvnpm/locker
+  java:
+    groupId: io.mvnpm
+    version: 11
+  inceptionYear: 2023
+
+release:
+  github:
+    owner: mvnpm
