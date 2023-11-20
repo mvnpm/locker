@@ -18,9 +18,27 @@ mvn io.mvnpm:locker-maven-plugin:0.0.4:lock
 
 NOTE: if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
 
+## Install the locker BOM in the Maven local repository
+
+It is required before building your project (else it will fail).
+
+On a standalone project:
+- Manually `cd .locker && mvn clean install`. Add it to your install doc and add as a new step in your CI.
+- [Using the locker extension](#add-the-locker-extension-optional) to automate this.
+
+On multi-module project, add the locker bom as a module in the parent pom.xml:
+```xml
+      <modules>
+        ...
+        <module>my-module/.locker</module>
+        <module>my-module</module>
+        ...
+      </modules>
+```
+
 ## Add the locker extension (optional)
 
-_This extension is optional, it is very helpful for standalone projects to allow building your bom if needed before running the project (for example when a new contributor clone the project and run it)._
+_This extension is optional, it is very helpful for standalone projects to allow building your bom if needed before running the project (for example when a new contributor clone the project and runs it or in CI)._
 
 `.mvn/extensions.xml`
 ```xml
