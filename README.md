@@ -8,15 +8,15 @@
 The mvnpm locker Maven Plugin will create a version locker BOM for your `org.mvnpm` and `org.webjars` dependencies.
 It is essential as NPM dependencies are over using ranges. After the locking, the quantity of files to download is considerably reduced (better for reproducibility, contributors and CI).
 
-## Lock your mvnpm and webjars versions 
+## Lock your mvnpm and webjars versions (or update)
 
-This will create a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
+This will create or udpate a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
 
 ```shell
 mvn io.mvnpm:locker-maven-plugin:0.0.4:lock
 ```
 
-NOTE: if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
+NOTE: When updating, if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
 
 ## Install the locker BOM in the Maven local repository
 
