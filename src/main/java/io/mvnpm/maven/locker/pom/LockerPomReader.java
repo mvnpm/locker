@@ -9,9 +9,9 @@ import static javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES;
 import static javax.xml.stream.XMLInputFactory.IS_VALIDATING;
 import static javax.xml.stream.XMLInputFactory.SUPPORT_DTD;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +54,7 @@ public final class LockerPomReader {
     private static final QName INTEGRITY = new QName(DEPENDENCY_LOCK_NS, "integrity");
     private static final String LOCK_INTEGRITY_PROP_PREFIX = "lock-integrity-";
 
-    public static List<Artifact> read(File file) {
+    public static List<Artifact> read(Path file) {
         try {
             return doRead(file);
         } catch (IOException e) {
@@ -64,9 +64,9 @@ public final class LockerPomReader {
         }
     }
 
-    private static List<Artifact> doRead(File file) throws IOException, XMLStreamException {
+    private static List<Artifact> doRead(Path file) throws IOException, XMLStreamException {
         WstxInputFactory inputFactory = createInputFactory();
-        XMLEventReader2 reader = inputFactory.createXMLEventReader(file);
+        XMLEventReader2 reader = inputFactory.createXMLEventReader(file.toFile());
         while (reader.hasNextEvent()) {
             XMLEvent evt = reader.nextEvent();
             if (evt.isStartElement()) {

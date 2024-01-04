@@ -5,8 +5,9 @@ import static java.util.Locale.ROOT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 
 import org.junit.Rule;
@@ -22,17 +23,17 @@ public final class LockerPomAccessorTest {
 
     @Test
     public void parentFoldersShouldBeCreated() throws IOException {
-        File basedir = folder.newFolder();
+        Path basedir = folder.newFolder().toPath();
         String folderName1 = randomEnoughString();
         String folderName2 = randomEnoughString();
         String filename = randomEnoughString();
-        File lockFile = new File(new File(new File(basedir, folderName1), folderName2), filename);
-        assertFalse(lockFile.isFile());
+        Path lockFile = basedir.resolve(folderName1).resolve(folderName2).resolve(filename);
+        assertFalse(Files.isRegularFile(lockFile));
         LockerPomFileAccessor.fromBasedir(
                 basedir, format(ROOT, "%s/%s/%s", folderName1, folderName2, filename))
                 .writer()
                 .close();
-        assertTrue(lockFile.isFile());
+        assertTrue(Files.isRegularFile(lockFile));
     }
 
     private static String randomEnoughString() {

@@ -7,6 +7,7 @@ import static org.apache.maven.plugins.annotations.ResolutionScope.TEST;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +23,8 @@ import com.google.common.io.Resources;
 
 import io.fabric8.maven.Maven;
 import io.fabric8.maven.merge.SmartModelMerger;
+import io.mvnpm.maven.locker.model.GAV;
+import io.mvnpm.maven.locker.model.ParentPom;
 import io.mvnpm.maven.locker.pom.DefaultLockerPom;
 import io.mvnpm.maven.locker.pom.LockerPom;
 import io.mvnpm.maven.locker.pom.LockerPomFileAccessor;
@@ -40,10 +43,16 @@ public final class LockMojo extends AbstractDependencyLockMojo {
                     "Locking is not possible with '" + LOCKER_PROFILE + "' profile enabled. Use '-P\\!" + LOCKER_PROFILE
                             + "' when locking or add the 'locker-maven-plugin' extension to '.mvn/extensions.xml'.");
         }
+
         LockerPomFileAccessor lockFile = lockFile();
-        getLog().info(String.format(ROOT, "Creating %s", lockFile.filename()));
+        final ParentPom parentPom = getParentPom(lockFile.file);
+        if (lockFile.exists()) {
+            getLog().info(String.format(ROOT, "Updating %s", lockFile.absolutePath()));
+        } else {
+            getLog().info(String.format(ROOT, "Creating %s", lockFile.absolutePath()));
+        }
         final LockerPom lockerPom = DefaultLockerPom.from(lockFile, pomMinimums(), getLog());
-        lockerPom.write(projectDependencies().filter(filters));
+        lockerPom.write(parentPom, projectDependencies().filter(filters));
         final Model model = project.getModel();
         final Optional<Profile> existingLockerProfile = model.getProfiles().stream()
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
@@ -55,6 +64,27 @@ public final class LockMojo extends AbstractDependencyLockMojo {
             getLog().info("'" + LOCKER_PROFILE + "' profile is present in the pom.xml");
         }
 
+    }
+
+    private ParentPom getParentPom(Path lockerPom) {
+        if (project.getParent() != null) {
+            final String relativeParentPath = getRelativeParentPath(lockerPom);
+            if (relativeParentPath != null) {
+                return new ParentPom(GAV.from(project.getParent()), relativeParentPath);
+            }
+        }
+        return null;
+    }
+
+    public String getRelativeParentPath(Path lockerPom) {
+        final Path parentPath = project.getParent().getFile().toPath().toAbsolutePath();
+        Path parentDirPath = parentPath.getParent();
+
+        if (lockerPom.startsWith(parentDirPath)) {
+            return lockerPom.getParent().relativize(parentPath).toString();
+        } else {
+            return null;
+        }
     }
 
     private void addProfileToPom() throws MojoExecutionException {

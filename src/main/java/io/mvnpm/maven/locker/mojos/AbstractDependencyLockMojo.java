@@ -21,7 +21,7 @@ public abstract class AbstractDependencyLockMojo extends AbstractMojo {
     protected MavenProject project;
 
     protected LockerPomFileAccessor lockFile() {
-        return LockerPomFileAccessor.fromBasedir(basedir, LOCKER_POM_PATH);
+        return LockerPomFileAccessor.fromBasedir(basedir.toPath(), LOCKER_POM_PATH);
     }
 
     protected Artifacts projectDependencies() {
