@@ -7,7 +7,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -123,7 +123,7 @@ public final class LockerPomReaderTest {
 
     private static List<Artifact> read(String name) {
         return LockerPomReader.read(
-                new File(
+                Path.of(
                         format(ROOT, "src/test/resources/io/mvnpm/maven/locker/poms/%s.xml", name)));
     }
 }

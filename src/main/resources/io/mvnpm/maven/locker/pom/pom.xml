@@ -4,11 +4,20 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
+  {#if parent}
+  <parent>
+    <groupId>{parent.groupId}</groupId>
+    <artifactId>{parent.artifactId}</artifactId>
+    <version>{parent.version}</version>
+    <relativePath>{parent.relativePath}</relativePath>
+  </parent>
+  {#else}
   <groupId>{pom.groupId}</groupId>
-  <artifactId>{pom.artifactId}-locker</artifactId>
   <version>{pom.version}</version>
+  {/if}
+  <artifactId>{pom.artifactId}-locker</artifactId>
   <packaging>pom</packaging>
+
   <dependencyManagement>
     <dependencies>
       {#for dependency in dependencies}
@@ -32,9 +41,4 @@
       {/for}
     </dependencies>
   </dependencyManagement>
-  <properties>
-    {#for dependency in dependencies}
-    <lock-integrity-{dependency.identifier.key}>{dependency.integrity}</lock-integrity-{dependency.identifier.key}>
-    {/for}
-  </properties>
 </project>
