@@ -9,7 +9,7 @@
 
   <groupId>io.mvnpm</groupId>
   <artifactId>locker-maven-plugin</artifactId>
-  <version>0.0.5</version>
+  <version>999-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
 
@@ -480,7 +480,7 @@
     <connection>scm:git:git@github.com:mvnpm/locker.git</connection>
     <developerConnection>scm:git:git@github.com:mvnpm/locker.git</developerConnection>
     <url>https://github.com/mvnpm/locker</url>
-    <tag>0.0.5</tag>
+    <tag>HEAD</tag>
   </scm>
 
 </project>
