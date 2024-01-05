@@ -13,7 +13,7 @@ It is essential as NPM dependencies are over using ranges. After the locking, th
 This will create or udpate a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
 
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.4:lock
+mvn io.mvnpm:locker-maven-plugin:0.0.5:lock
 ```
 
 NOTE: When updating, if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
@@ -47,7 +47,7 @@ _This extension is optional, it is very helpful for standalone projects to allow
     <extension>
         <groupId>io.mvnpm</groupId>
         <artifactId>locker-maven-plugin</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5</version>
     </extension>
 </extensions>
 ```
