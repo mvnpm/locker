@@ -59,9 +59,16 @@ public final class InstallLocker {
 
     private static Path pathOfLockPomInLocalRepo(ArtifactRepository localRepository, Path lockerPom) {
         final Model lockerModel = Maven.readModel(lockerPom);
-
-        final DefaultArtifact lockerArtifact = new DefaultArtifact(lockerModel.getGroupId(), lockerModel.getArtifactId(),
-                lockerModel.getVersion(), "import", "pom", null, new DefaultArtifactHandler());
+        String groupId = lockerModel.getGroupId();
+        String version = lockerModel.getVersion();
+        if (groupId == null && lockerModel.getParent() != null) {
+            groupId = lockerModel.getParent().getGroupId();
+        }
+        if (version == null && lockerModel.getParent() != null) {
+            version = lockerModel.getParent().getVersion();
+        }
+        final DefaultArtifact lockerArtifact = new DefaultArtifact(groupId, lockerModel.getArtifactId(),
+                version, "import", "pom", null, new DefaultArtifactHandler());
         return Path.of(localRepository.getBasedir(), localRepository.pathOf(lockerArtifact) + ".pom");
     }
 
