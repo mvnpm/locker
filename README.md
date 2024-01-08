@@ -16,7 +16,12 @@ This will create or udpate a locker BOM and add it to your pom.xml as a `locker`
 mvn io.mvnpm:locker-maven-plugin:0.0.5:lock
 ```
 
-NOTE: When updating, if the `locker` profile is already in your pom.xml and you don't have the extension installed, you need to add this `-P\!locker` when using the `lock` goal.
+**NOTE:**
+
+When updating, if you don't have the locker extension installed, you need to add `-P\!locker` when using the `lock` goal:
+```shell
+mvn io.mvnpm:locker-maven-plugin:0.0.5:lock -P\!locker
+```
 
 ## Install the locker BOM in the Maven local repository
 
