@@ -56,6 +56,15 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         final Model model = project.getModel();
         final Optional<Profile> existingLockerProfile = model.getProfiles().stream()
                 .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
+        final boolean hasActiveByDefaultProfiles = model.getProfiles().stream()
+                .anyMatch(p -> p.getActivation().isActiveByDefault());
+        if (hasActiveByDefaultProfiles) {
+            getLog().warn(
+                    "\n\nThe locker profile uses a NEGATED PROPERTY '!unlocked'. This OVERRIDES the 'activeByDefault' option in other profiles.\n\n"
+                            +
+                            "Your pom.xml contains profiles with 'activeByDefault=true'.\n" +
+                            "For CONSISTENT BEHAVIOR, consider REMOVING 'activeByDefault=true' from your profiles or use NEGATED PROPERTIES instead.\n\n");
+        }
         if (existingLockerProfile.isEmpty()) {
             getLog().info(
                     "Adding '" + LOCKER_PROFILE + "' profile to the pom.xml...");
@@ -105,6 +114,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         final String tpl = Resources.toString(Resources.getResource(LockMojo.class, "locker-profile.xml"),
                 StandardCharsets.UTF_8);
         final Map<String, Object> data = Map.of(
+                "useNegatedProp", true,
                 "lockerProfile", LOCKER_PROFILE,
                 "groupId", project.getGroupId(),
                 "artifactId", project.getArtifactId());
