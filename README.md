@@ -13,14 +13,14 @@ It is essential as NPM dependencies are over using ranges. After the locking, th
 This will create or udpate a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
 
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.5:lock
+mvn io.mvnpm:locker-maven-plugin:0.0.6:lock
 ```
 
 **NOTE:**
 
-When updating, if you don't have the locker extension installed, you need to add `-P\!locker` when using the `lock` goal:
+When updating, if you don't have the locker extension installed, you need to add `-Dunlocked` when using the `lock` goal:
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.5:lock -P\!locker
+mvn io.mvnpm:locker-maven-plugin:0.0.6:lock -Dunlocked
 ```
 
 ## Install the locker BOM in the Maven local repository
@@ -52,7 +52,7 @@ _This extension is optional, it is very helpful for standalone projects to allow
     <extension>
         <groupId>io.mvnpm</groupId>
         <artifactId>locker-maven-plugin</artifactId>
-        <version>0.0.5</version>
+        <version>0.0.6</version>
     </extension>
 </extensions>
 ```
