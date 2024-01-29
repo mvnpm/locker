@@ -25,7 +25,7 @@ mvn io.mvnpm:locker-maven-plugin:0.0.6:lock -Dunlocked
 
 ## Common issues
 
-**Maven resolver can't determine which version to use between two version?**
+**Maven resolver can't determine which version to use between two versions?**
 
 In that case, choose which version to use in you dependency management.
 
