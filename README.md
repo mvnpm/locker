@@ -6,7 +6,11 @@
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)](https://www.apache.org/licenses/LICENSE-2.0)
 
 The mvnpm locker Maven Plugin will create a version locker BOM for your `org.mvnpm` and `org.webjars` dependencies.
-It is essential as NPM dependencies are over using ranges. After the locking, the quantity of files to download is considerably reduced (better for reproducibility, contributors and CI).
+Allowing you to mimick the `npm-shrinkwrap.json` and `yarn.lock` files in a Maven world.
+
+It is essential as NPM dependencies are typically deployed using version ranges, without locking your builds will use different versions of dependencies between builds if any of your transitive NPM based dependencies are updated. 
+
+In additon when using the locker, the number of files Maven need to download is considerably reduced as it no longer need to check all possible version ranges (better for reproducibility, contributors and CI).
 
 ## Lock your mvnpm and webjars versions (or update)
 
