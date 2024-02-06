@@ -31,8 +31,8 @@ In that case, choose which version to use in you dependency management.
 
 **Dependabot update fails to build because of missing transitive dependencies**
 
-a. Checkout the PR locally and use `mvnpm-repo` profile to build. It will make sure all missing transitive dependencies are synchronized on Maven Central.
-b. Configure your CI to use the `mvnpm-repo` on dependabot updates PRs.
+- a. Checkout the PR locally and use `mvnpm-repo` profile to build. It will make sure all missing transitive dependencies are synchronized on Maven Central.
+- b. Configure your CI to use the `mvnpm-repo` on dependabot updates PRs.
 
 
 ## Install the locker BOM in the Maven local repository
