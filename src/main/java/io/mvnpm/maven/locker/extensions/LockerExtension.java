@@ -37,6 +37,11 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
     public void afterSessionStart(MavenSession session)
             throws MavenExecutionException {
         final Path pomPath = session.getRequest().getPom().toPath();
+
+        if (!Files.exists(pomPath)) {
+            return;
+        }
+
         final Path lockerPom = pomPath.getParent().resolve(LOCKER_POM_PATH);
 
         if (session.getGoals().stream().anyMatch(LOCK_GOAL_PREDICATE)) {
