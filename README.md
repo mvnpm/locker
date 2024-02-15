@@ -34,7 +34,7 @@ mvn io.mvnpm:locker-maven-plugin:LATEST:lock
 **Now you need to install the locker BOM in the Maven local repository (It is required before building your project):**
 
 => On a standalone project:
-- Manually `cd locker && mvn clean install`. Add it to your install doc and add as a new step in your CI.
+- Manually `mvn -f locker clean install`. Add it to your install doc and add as a new step in your CI.
 - [Using the locker extension](#add-the-locker-extension-for-locker-bom-mode-optional) to automate this.
 
 => On multi-module project, add the locker bom as a module in the parent pom.xml:
