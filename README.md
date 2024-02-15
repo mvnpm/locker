@@ -14,14 +14,14 @@ _In additon when using the locker, the number of files Maven need to download is
 
 ## Installation
 
-### In-Profile Mode  (for smaller amount of deps)
+### IN_PROFILE Mode  (for smaller amount of deps)
 
 This command will modify your pom.xml with Locker dependencies directly in a new `locker` profile:
 ```shell
-mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dlocker.in-profile
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dlocker.mode=IN_PROFILE
 ```
 
-### Locker BOM Mode
+### LOCKER_BOM Mode (default)
 
 This command will:
 - create a distinct Locker BOM file (`./locker/pom.xml`)
@@ -54,16 +54,16 @@ To update, you need to add `-Dunlocked` alongside the `lock` goal (to disable th
 mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked
 ```
 
-NOTE: _You don't need to specify the mode (`-Din-profile` option) as it is auto-detected._
+NOTE: _You don't need to specify the mode (`-Dlocker.mode` option) as it is auto-detected._
 
 ## Switch to Locker BOM Mode (from in-profile locker dependencies)
 
 If the amount of dependencies in your project has grown, you may want to switch to the Locker BOM Mode (to reduce the amount of dependencies in your project pom.xml).
 ```shell
-mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked -Dlocker.in-profile=false
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked -Dlocker.mode=LOCKER_BOM
 ```
 
-For the opposite, you can just remove the Locker BOM from your project and the locker profile and use the `in-profile` option to add the locker dependencies to your project pom.xml.
+For the opposite, you can just remove the Locker BOM from your project and the locker profile and use the `-Dlocker.mode=IN_PROFILE` option to add the locker dependencies to your project pom.xml.
 
 ## Add the locker extension for Locker BOM mode (optional)
 

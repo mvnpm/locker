@@ -3,6 +3,8 @@ package io.mvnpm.maven.locker.mojos;
 import static io.mvnpm.maven.locker.LockerConstants.LOCKER_PROFILE;
 import static io.mvnpm.maven.locker.LockerProfile.findLockerProfile;
 import static io.mvnpm.maven.locker.LockerProfile.usesLockerBom;
+import static io.mvnpm.maven.locker.mojos.LockerMode.IN_PROFILE;
+import static io.mvnpm.maven.locker.mojos.LockerMode.LOCKER_BOM;
 import static java.util.Locale.ROOT;
 import static org.apache.maven.plugins.annotations.ResolutionScope.TEST;
 
@@ -40,8 +42,8 @@ public final class LockMojo extends AbstractDependencyLockMojo {
     @Parameter(property = "locker.filter", defaultValue = "org.mvnpm*,org.webjars*")
     private List<String> filters;
 
-    @Parameter(property = "locker.in-profile", defaultValue = "false")
-    private boolean inProfile;
+    @Parameter(property = "locker.mode")
+    private LockerMode mode;
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -59,12 +61,16 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         final Optional<Profile> existingLockerProfile = findLockerProfile(model);
         final boolean alreadyConfiguredWithLockerBom = usesLockerBom(existingLockerProfile) || lockFileExists;
         if (alreadyConfiguredWithLockerBom) {
-            getLog().info("Configured with locker BOM");
-            if (inProfile) {
-                getLog().warn("Ignoring 'locker.in-profile' parameter, locker BOM is already configured");
+            getLog().info("Configured with locker BOM Mode");
+            if (IN_PROFILE.equals(mode)) {
+                getLog().warn("Ignoring 'locker.mode' parameter, the project is already configured with Locker BOM Mode");
             }
         }
-        final boolean lockerBomModeEnabled = !inProfile || alreadyConfiguredWithLockerBom;
+
+        boolean lockerBomModeEnabled = LOCKER_BOM.equals(mode) || alreadyConfiguredWithLockerBom;
+        if (existingLockerProfile.isEmpty() && mode == null) {
+            lockerBomModeEnabled = true;
+        }
         if (lockerBomModeEnabled) {
             getLog().info(String.format(ROOT, "%s %s", lockFileExists ? "Updating" : "Creating", lockFile.absolutePath()));
             final LockerPom lockerPom = DefaultLockerPom.from(lockFile, pomMinimums(), getLog());
@@ -84,8 +90,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
             if (!lockerBomModeEnabled) {
                 getLog().info("Updating '" + LOCKER_PROFILE + "' profile with locked dependencies");
                 addLockerProfile = true;
-            }
-            if (!usesLockerBom(existingLockerProfile)) {
+            } else if (!usesLockerBom(existingLockerProfile)) {
                 addLockerProfile = true;
                 getLog().info("Switching to locker BOM in '" + LOCKER_PROFILE + "' profile");
             }
