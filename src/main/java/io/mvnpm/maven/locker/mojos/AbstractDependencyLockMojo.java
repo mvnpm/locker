@@ -1,7 +1,5 @@
 package io.mvnpm.maven.locker.mojos;
 
-import static io.mvnpm.maven.locker.LockerConstants.LOCKER_POM_PATH;
-
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -21,7 +19,7 @@ public abstract class AbstractDependencyLockMojo extends AbstractMojo {
     protected MavenProject project;
 
     protected LockerPomFileAccessor lockFile() {
-        return LockerPomFileAccessor.fromBasedir(basedir.toPath(), LOCKER_POM_PATH);
+        return LockerPomFileAccessor.fromBasedir(basedir.toPath());
     }
 
     protected Artifacts projectDependencies() {

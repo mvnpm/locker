@@ -1,5 +1,7 @@
 package io.mvnpm.maven.locker.pom;
 
+import static io.mvnpm.maven.locker.LockerConstants.LEGACY_LOCKER_POM_PATH;
+import static io.mvnpm.maven.locker.LockerConstants.LOCKER_POM_PATH;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.FileInputStream;
@@ -22,8 +24,11 @@ public final class LockerPomFileAccessor {
         this.file = file;
     }
 
-    public static LockerPomFileAccessor fromBasedir(Path basedir, String filename) {
-        return new LockerPomFileAccessor(basedir.resolve(filename));
+    public static LockerPomFileAccessor fromBasedir(Path basedir) {
+        // Support for legacy .locker directory name
+        final Path legacyPomPath = basedir.resolve(LEGACY_LOCKER_POM_PATH);
+        Path file = Files.exists(legacyPomPath) ? legacyPomPath : basedir.resolve(LOCKER_POM_PATH);
+        return new LockerPomFileAccessor(file);
     }
 
     public Reader reader() {

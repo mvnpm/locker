@@ -6,16 +6,33 @@
         <profile>
             <id>{lockerProfile}</id>
             <activation>
-                {#if useNegatedProp}
                 <property>
                     <name>!unlocked</name>
                 </property>
-                {#else}
-                <activeByDefault>true</activeByDefault>
-                {/if}
             </activation>
             <dependencyManagement>
                 <dependencies>
+                    {#if lockedDependencies}
+                    {#for dependency in lockedDependencies}
+                    <dependency>
+                        <groupId>{dependency.identifier.groupId}</groupId>
+                        <artifactId>{dependency.identifier.artifactId}</artifactId>
+                        <version>{dependency.version}</version>
+                        {#if dependency.identifier.type != "jar"}
+                        <type>{dependency.identifier.type}</type>
+                        {/if}
+                        {#if dependency.scope != "compile"}
+                        <scope>{dependency.scope}</scope>
+                        {/if}
+                        {#if dependency.identifier.classifier.isPresent()}
+                        <classifier>{dependency.identifier.classifier.get()}</classifier>
+                        {/if}
+                        {#if dependency.optional}
+                        <optional>true</optional>
+                        {/if}
+                    </dependency>
+                    {/for}
+                    {#else}
                     <dependency>
                         <groupId>{groupId}</groupId>
                         <artifactId>{artifactId}-locker</artifactId>
@@ -23,6 +40,7 @@
                         <type>pom</type>
                         <scope>import</scope>
                     </dependency>
+                    {/if}
                 </dependencies>
             </dependencyManagement>
         </profile>

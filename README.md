@@ -5,61 +5,69 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.mvnpm/locker-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.mvnpm/locker-maven-plugin)
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/apache/maven.svg?label=License)](https://www.apache.org/licenses/LICENSE-2.0)
 
-The mvnpm locker Maven Plugin will create a version locker BOM for your `org.mvnpm` and `org.webjars` dependencies.
-Allowing you to mimick the `npm-shrinkwrap.json` and `yarn.lock` files in a Maven world.
+The mvnpm locker Maven Plugin will create a version locker profile for your `org.mvnpm` and `org.webjars` dependencies.
+Allowing you to mimick the `package-lock.json` and `yarn.lock` files in a Maven world.
 
-It is essential as NPM dependencies are typically deployed using version ranges, without locking your builds will use different versions of dependencies between builds if any of your transitive NPM based dependencies are updated. 
+_It is essential as NPM dependencies are typically deployed using version ranges, without locking your builds will use different versions of dependencies between builds if any of your transitive NPM based dependencies are updated._
 
-In additon when using the locker, the number of files Maven need to download is considerably reduced as it no longer need to check all possible version ranges (better for reproducibility, contributors and CI).
+_In additon when using the locker, the number of files Maven need to download is considerably reduced as it no longer need to check all possible version ranges (better for reproducibility, contributors and CI)._
 
-## Lock your mvnpm and webjars versions (or update)
+## Installation
 
-This will create or udpate a locker BOM and add it to your pom.xml as a `locker` profile (if not yet there).
+### In-Profile Mode  (for smaller amount of deps)
 
+This command will modify your pom.xml with Locker dependencies directly in a new `locker` profile:
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.6:lock
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dlocker.in-profile
 ```
 
-**NOTE:**
+### Locker BOM Mode
 
-When updating, if you don't have the locker extension installed, you need to add `-Dunlocked` when using the `lock` goal:
+This command will:
+- create a distinct Locker BOM file (`./locker/pom.xml`)
+- add a `locker` profile in your project pom.xml to use the Locker BOM
+
 ```shell
-mvn io.mvnpm:locker-maven-plugin:0.0.6:lock -Dunlocked
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock
 ```
 
-## Common issues
+**Now you need to install the locker BOM in the Maven local repository (It is required before building your project):**
 
-**Maven resolver can't determine which version to use between two versions?**
+=> On a standalone project:
+- Manually `cd locker && mvn clean install`. Add it to your install doc and add as a new step in your CI.
+- [Using the locker extension](#add-the-locker-extension-for-locker-bom-mode-optional) to automate this.
 
-In that case, choose which version to use in you dependency management.
-
-**Dependabot update fails to build because of missing transitive dependencies**
-
-- a. Checkout the PR locally and use `mvnpm-repo` profile to build. It will make sure all missing transitive dependencies are synchronized on Maven Central.
-- b. Configure your CI to use the `mvnpm-repo` on dependabot updates PRs.
-
-
-## Install the locker BOM in the Maven local repository
-
-It is required before building your project (else it will fail).
-
-On a standalone project:
-- Manually `cd .locker && mvn clean install`. Add it to your install doc and add as a new step in your CI.
-- [Using the locker extension](#add-the-locker-extension-optional) to automate this.
-
-On multi-module project, add the locker bom as a module in the parent pom.xml:
+=> On multi-module project, add the locker bom as a module in the parent pom.xml:
 ```xml
       <modules>
         ...
-        <module>my-module/.locker</module>
+        <module>my-module/locker</module>
         <module>my-module</module>
         ...
       </modules>
 ```
 
-## Add the locker extension (optional)
+## Update your locked dependencies
 
-_This extension is optional, it is very helpful for standalone projects to allow building your bom if needed before running the project (for example when a new contributor clone the project and runs it or in CI)._
+To update, you need to add `-Dunlocked` alongside the `lock` goal (to disable the locker profile and find new versions):
+```shell
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked
+```
+
+NOTE: _You don't need to specify the mode (`-Din-profile` option) as it is auto-detected._
+
+## Switch to Locker BOM Mode (from in-profile locker dependencies)
+
+If the amount of dependencies in your project has grown, you may want to switch to the Locker BOM Mode (to reduce the amount of dependencies in your project pom.xml).
+```shell
+mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked -Dlocker.in-profile=false
+```
+
+For the opposite, you can just remove the Locker BOM from your project and the locker profile and use the `in-profile` option to add the locker dependencies to your project pom.xml.
+
+## Add the locker extension for Locker BOM mode (optional)
+
+_This extension is optional, it is important for standalone projects to make sure your BOM is installed before running the project (for example when a new contributor clone the project and runs it or in CI)._
 
 `.mvn/extensions.xml`
 ```xml
@@ -74,5 +82,19 @@ _This extension is optional, it is very helpful for standalone projects to allow
 ```
 
 Features:
-- Install the Locker BOM (`locker/pom.xml`) in the local Maven repository if needed before loading the Maven project (on any goal but `lock`)
+- Install the Locker BOM (`locker/pom.xml`) in the local Maven repository if out-of-date before loading the Maven project (on any goal but `lock`)
 - Ignore the `locker` profile when using the `lock` goal.
+
+
+## Common issues
+
+**Maven resolver can't determine which version to use between two versions?**
+
+In that case, choose which version to use by adding this `dependency` in the pom.xml `dependencyManagement > dependencies` section.
+
+**Dependabot update fails to build because of missing transitive dependencies**
+
+We are working on making this process automatic (See https://github.com/mvnpm/mvnpm/issues/4614), but for now you have two options:
+- a. Checkout the PR locally and use `mvnpm-repo` profile to build. It will make sure all missing transitive dependencies are synchronized on Maven Central.
+- b. Configure your CI to use the `mvnpm-repo` on dependabot updates PRs.
+
