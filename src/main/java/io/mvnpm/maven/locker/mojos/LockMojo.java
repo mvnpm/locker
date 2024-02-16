@@ -49,8 +49,8 @@ public final class LockMojo extends AbstractDependencyLockMojo {
     public void execute() throws MojoExecutionException {
         if (project.getActiveProfiles().stream().map(Profile::getId).anyMatch(LOCKER_PROFILE::equals)) {
             throw new MojoExecutionException(
-                    "Locking is not possible with '" + LOCKER_PROFILE + "' profile enabled. Use '-P\\!" + LOCKER_PROFILE
-                            + "' when locking or add the 'locker-maven-plugin' extension to '.mvn/extensions.xml'.");
+                    "Locking is not possible with '" + LOCKER_PROFILE
+                            + "' profile enabled. Use '-Dunlocked' when locking or add the 'locker-maven-plugin' extension to '.mvn/extensions.xml'.");
         }
 
         LockerPomFileAccessor lockFile = lockFile();
@@ -79,8 +79,14 @@ public final class LockMojo extends AbstractDependencyLockMojo {
 
         boolean addLockerProfile = false;
         if (existingLockerProfile.isEmpty()) {
-            getLog().info(
-                    "Adding '" + LOCKER_PROFILE + "' profile to the pom.xml...");
+            if (lockerBomModeEnabled) {
+                getLog().info(
+                        "Adding '" + LOCKER_PROFILE + "' profile with the Locker BOM to the pom.xml...");
+            } else {
+                getLog().info(
+                        "Adding '" + LOCKER_PROFILE + "' profile with " + lockedDependencies.artifacts.size()
+                                + " locked dependencies to the pom.xml...");
+            }
             addLockerProfile = true;
         } else {
             if (existingLockerProfile.get().getActivation().isActiveByDefault()) {
