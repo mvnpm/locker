@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.foo</groupId>
+  <version>999-SNAPSHOT</version>
+  <artifactId>bar-locker</artifactId>
+  <packaging>pom</packaging>
+
+  <!-- Locked dependencies (Update with 'mvn io.mvnpm:locker-maven-plugin:LATEST:lock -Dunlocked') -->
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.mvnpm.at.lit-labs</groupId>
+        <artifactId>ssr-dom-shim</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvnpm.at.lit</groupId>
+        <artifactId>reactive-element</artifactId>
+        <version>2.0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvnpm.at.types</groupId>
+        <artifactId>trusted-types</artifactId>
+        <version>2.0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvnpm</groupId>
+        <artifactId>lit-element</artifactId>
+        <version>4.0.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvnpm</groupId>
+        <artifactId>lit-html</artifactId>
+        <version>3.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mvnpm</groupId>
+        <artifactId>lit</artifactId>
+        <version>3.1.1</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

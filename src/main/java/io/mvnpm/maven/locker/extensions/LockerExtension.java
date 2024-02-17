@@ -4,6 +4,8 @@ import static io.mvnpm.maven.locker.InstallLocker.installLocker;
 import static io.mvnpm.maven.locker.LockerConstants.LOCKER_POM_PATH;
 import static io.mvnpm.maven.locker.LockerConstants.LOCKER_PROFILE;
 import static io.mvnpm.maven.locker.LockerConstants.LOCK_GOAL_PREDICATE;
+import static io.mvnpm.maven.locker.LockerProfile.findLockerProfile;
+import static io.mvnpm.maven.locker.LockerProfile.usesLockerBom;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,8 +56,7 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
 
     private void prepareForBuilding(MavenSession session, Path pomPath, Path lockerPom) throws MavenExecutionException {
         final Model model = Maven.readModel(pomPath);
-        final Optional<Profile> lockerProfile = model.getProfiles().stream()
-                .filter(p -> p.getId().equals(LOCKER_PROFILE)).findFirst();
+        final Optional<Profile> lockerProfile = findLockerProfile(model);
 
         if (Files.exists(lockerPom)) {
             if (lockerProfile.isEmpty()) {
@@ -67,11 +68,14 @@ public class LockerExtension extends AbstractMavenLifecycleParticipant {
             installLocker(session.getLocalRepository(), lockerPom, logger);
         } else {
             if (lockerProfile.isPresent()) {
-                throw new MavenExecutionException(
-                        "'" + LOCKER_PROFILE + "' profile found in the '" + pomPath + "' but no Locker BOM found in: "
-                                + lockerPom,
-                        session.getRequest()
-                                .getPom());
+                if (usesLockerBom(lockerProfile)) {
+                    throw new MavenExecutionException(
+                            "'" + LOCKER_PROFILE + "' profile found in the '" + pomPath
+                                    + "' but corresponding Locker BOM not found in: "
+                                    + lockerPom,
+                            session.getRequest()
+                                    .getPom());
+                }
             }
         }
     }
