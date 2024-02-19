@@ -96,5 +96,5 @@ In that case, choose which version to use by adding this `dependency` in the pom
 
 We are working on making this process automatic (See https://github.com/mvnpm/mvnpm/issues/4614), but for now you have two options:
 - a. Checkout the PR locally and use `mvnpm-repo` profile to build. It will make sure all missing transitive dependencies are synchronized on Maven Central.
-- b. Configure your CI to use the [`mvnpm-repo`](https://github.com/mvnpm/mvnpm?tab=readme-ov-file#configure-the-mvnpm-maven-repository-as-a-fallback)https://github.com/mvnpm/mvnpm?tab=readme-ov-file#configure-the-mvnpm-maven-repository-as-a-fallback on dependabot updates PRs.
+- b. Configure your CI to use the [`mvnpm-repo`](https://github.com/mvnpm/mvnpm?tab=readme-ov-file#configure-the-mvnpm-maven-repository-as-a-fallback) on dependabot updates PRs.
 
