@@ -76,7 +76,7 @@ _This extension is optional, it is important for standalone projects to make sur
     <extension>
         <groupId>io.mvnpm</groupId>
         <artifactId>locker-maven-plugin</artifactId>
-        <version>0.0.6</version>
+        <version>1.0.0</version>
     </extension>
 </extensions>
 ```
