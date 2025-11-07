@@ -36,12 +36,12 @@
         <dependency>
             <groupId>org.mvnpm</groupId>
             <artifactId>lit</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.mvnpm</groupId>
             <artifactId>lit-element</artifactId>
-            <version>4.0.3</version>
+            <version>4.0.4</version>
         </dependency>
     </dependencies>
 </project>
