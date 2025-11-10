@@ -56,7 +56,7 @@
         <maven-plugin-annotations.version>3.6.4</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
         <plexus-utils.version>3.4.2</plexus-utils.version>
-        <stax2-api.version>4.2.1</stax2-api.version>
+        <stax2-api.version>4.2.2</stax2-api.version>
         <woodstox-core.version>6.4.0</woodstox-core.version>
         <maven-invoker.version>3.2.0</maven-invoker.version>
 
