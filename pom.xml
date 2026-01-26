@@ -53,7 +53,7 @@
         <maven-artifact.version>3.9.11</maven-artifact.version>
         <maven-core.version>3.9.11</maven-core.version>
         <maven-model.version>3.9.3</maven-model.version>
-        <maven-plugin-annotations.version>3.6.4</maven-plugin-annotations.version>
+        <maven-plugin-annotations.version>3.15.2</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
         <plexus-utils.version>3.4.2</plexus-utils.version>
         <stax2-api.version>4.2.2</stax2-api.version>
