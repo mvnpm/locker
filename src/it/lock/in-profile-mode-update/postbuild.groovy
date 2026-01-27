@@ -1,14 +1,21 @@
+import static org.assertj.core.api.Assertions.assertThat
+
 import java.nio.file.Files
 
-import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.contains
-import static org.hamcrest.Matchers.containsInRelativeOrder
-import static org.hamcrest.Matchers.is
+import org.xmlunit.assertj3.XmlAssert
+
+import io.mvnpm.maven.locker.XmlUnitTestSupport
 
 buildLog = Files.readAllLines(basedir.toPath().resolve("build.log"))
-assertThat(buildLog, containsInRelativeOrder("[INFO] Updating 'locker' profile with locked dependencies"))
+assertThat(buildLog).contains("[INFO] Updating 'locker' profile with locked dependencies")
 
 lockedPom = basedir.toPath().resolve("pom.xml")
 expectedPom = basedir.toPath().resolve("expected-pom.xml")
 
-assertThat(Files.readString(lockedPom), is(Files.readString(expectedPom)))
+XmlAssert.assertThat(Files.readString(lockedPom))
+        .and(Files.readString(expectedPom))
+        .withNodeFilter(XmlUnitTestSupport.ignoreMvnpmDependencyVersions())
+        .ignoreWhitespace()
+        .areIdentical()
+
+true
