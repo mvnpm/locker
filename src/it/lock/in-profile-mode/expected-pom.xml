@@ -11,6 +11,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.mvnpm</groupId>
+            <artifactId>lit</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mvnpm</groupId>
+            <artifactId>lit-element</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+    </dependencies>
     <profiles>
         <profile>
             <id>locker</id>
@@ -55,16 +67,4 @@
             </dependencyManagement>
         </profile>
     </profiles>
-    <dependencies>
-        <dependency>
-            <groupId>org.mvnpm</groupId>
-            <artifactId>lit</artifactId>
-            <version>3.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mvnpm</groupId>
-            <artifactId>lit-element</artifactId>
-            <version>4.0.4</version>
-        </dependency>
-    </dependencies>
 </project>
