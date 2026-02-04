@@ -21,9 +21,6 @@
                         {#if dependency.identifier.type != "jar"}
                         <type>{dependency.identifier.type}</type>
                         {/if}
-                        {#if dependency.scope != "compile"}
-                        <scope>{dependency.scope}</scope>
-                        {/if}
                         {#if dependency.identifier.classifier.isPresent()}
                         <classifier>{dependency.identifier.classifier.get()}</classifier>
                         {/if}
