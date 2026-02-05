@@ -54,7 +54,6 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         }
 
         LockerPomFileAccessor lockFile = lockFile();
-        final ParentPom parentPom = getParentPom(lockFile.file);
         final Artifacts lockedDependencies = projectDependencies().filter(filters);
         final boolean lockFileExists = lockFile.exists();
         final Model model = project.getModel();
@@ -74,6 +73,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         if (lockerBomModeEnabled) {
             getLog().info(String.format(ROOT, "%s %s", lockFileExists ? "Updating" : "Creating", lockFile.absolutePath()));
             final LockerPom lockerPom = DefaultLockerPom.from(lockFile, pomMinimums(), getLog());
+            final ParentPom parentPom = getParentPom(lockFile.file);
             lockerPom.write(parentPom, lockedDependencies);
         }
 
