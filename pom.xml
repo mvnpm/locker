@@ -352,6 +352,7 @@
                     <pomIncludes>
                         <pomInclude>*/*/pom.xml</pomInclude>
                     </pomIncludes>
+                    <parallelThreads>2C</parallelThreads>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
                     <addTestClassPath>true</addTestClassPath>
                     <streamLogs>true</streamLogs>
