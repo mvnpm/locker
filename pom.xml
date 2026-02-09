@@ -49,7 +49,7 @@
         <qute.version>3.5.0</qute.version>
         <guava.version>33.5.0-jre</guava.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <assertj.version>3.26.3</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <junit.version>4.13.2</junit.version>
         <maven-artifact.version>3.9.12</maven-artifact.version>
         <maven-core.version>3.9.12</maven-core.version>
