@@ -350,7 +350,7 @@
                         <setupInclude>setup/*/pom.xml</setupInclude>
                     </setupIncludes>
                     <pomIncludes>
-                        <pomInclude>*/*/pom.xml</pomInclude>
+                        <pomInclude>lock/*</pomInclude>
                     </pomIncludes>
                     <parallelThreads>2C</parallelThreads>
                     <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
