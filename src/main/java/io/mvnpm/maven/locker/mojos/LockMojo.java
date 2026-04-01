@@ -89,7 +89,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
             }
             addLockerProfile = true;
         } else {
-            if (existingLockerProfile.get().getActivation().isActiveByDefault()) {
+            if (isActiveByDefault(existingLockerProfile.get())) {
                 getLog().info("Switching to '!unlocked' property activation in '" + LOCKER_PROFILE + "' profile");
                 addLockerProfile = true;
             }
@@ -108,7 +108,7 @@ public final class LockMojo extends AbstractDependencyLockMojo {
             getLog().info("No changes to the project pom.xml");
         }
         final boolean hasActiveByDefaultProfiles = newModel.getProfiles().stream()
-                .anyMatch(p -> p.getActivation().isActiveByDefault());
+                .anyMatch(LockMojo::isActiveByDefault);
         if (hasActiveByDefaultProfiles) {
             getLog().warn(
                     "\n\nThe locker profile uses a negated property '!unlocked' for activation, this disables other profiles with 'activeByDefault'.\n\n"
@@ -116,6 +116,10 @@ public final class LockMojo extends AbstractDependencyLockMojo {
                             "Your pom.xml contains other profiles with 'activeByDefault=true'.\n" +
                             "Consider replacing 'activeByDefault=true' from your profiles by property activation (i.e use !foo to be active unless -Dfoo).\n\n");
         }
+    }
+
+    private static boolean isActiveByDefault(Profile profile) {
+        return profile.getActivation() != null && profile.getActivation().isActiveByDefault();
     }
 
     private ParentPom getParentPom(Path lockerPom) {
