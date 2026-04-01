@@ -71,6 +71,10 @@ public final class LockMojo extends AbstractDependencyLockMojo {
         if (existingLockerProfile.isEmpty() && mode == null) {
             lockerBomModeEnabled = true;
         }
+        if (lockedDependencies.artifacts.isEmpty()) {
+            getLog().warn(
+                    "No dependencies were locked. This may indicate that locker was run on the wrong Maven project, for example a parent or aggregator project.");
+        }
         if (lockerBomModeEnabled) {
             getLog().info(String.format(ROOT, "%s %s", lockFileExists ? "Updating" : "Creating", lockFile.absolutePath()));
             final LockerPom lockerPom = DefaultLockerPom.from(lockFile, pomMinimums(), getLog());
