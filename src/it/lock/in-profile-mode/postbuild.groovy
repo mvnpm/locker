@@ -10,8 +10,8 @@ buildLog = Files.readAllLines(basedir.toPath().resolve("build.log"))
 assertThat(buildLog)
     .contains("[INFO] Adding 'locker' profile with 6 locked dependencies to the pom.xml...")
 
-lockedPom = basedir.toPath().resolve("pom.xml")
-expectedPom = basedir.toPath().resolve("expected-pom.xml")
+lockedPom = basedir.toPath().resolve("input/pom.xml")
+expectedPom = basedir.toPath().resolve("expected/pom.xml")
 
 XmlAssert.assertThat(Files.readString(lockedPom))
     .and(Files.readString(expectedPom))

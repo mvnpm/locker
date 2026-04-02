@@ -12,14 +12,15 @@ assertThat(buildLog)
         "[INFO] Configured with locker BOM Mode",
         "[INFO] No changes to the project pom.xml"
     )
+expectedLockerPomPath = basedir.toPath().resolve("input/locker/pom.xml").toAbsolutePath().toString()
 assertThat(buildLog)
-    .anyMatch { it.startsWith("[INFO] Creating ") && it.endsWith("/target/its/lock/locker-bom-mode-update/locker/pom.xml") }
+    .anyMatch { it.startsWith("[INFO] Creating ") && it.endsWith(expectedLockerPomPath) }
 
-lockedPom = basedir.toPath().resolve("pom.xml")
-expectedPom = basedir.toPath().resolve("expected-pom.xml")
+lockedPom = basedir.toPath().resolve("input/pom.xml")
+expectedPom = basedir.toPath().resolve("expected/pom.xml")
 
-lockerBom = basedir.toPath().resolve("locker/pom.xml")
-expectedLockerBom = basedir.toPath().resolve("expected-locker/pom.xml")
+lockerBom = basedir.toPath().resolve("input/locker/pom.xml")
+expectedLockerBom = basedir.toPath().resolve("expected/locker/pom.xml")
 
 assertThat(lockedPom).exists()
 
