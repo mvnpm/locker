@@ -137,6 +137,10 @@ public final class LockMojo extends AbstractDependencyLockMojo {
     }
 
     public String getRelativeParentPath(Path lockerPom) {
+        if (project.getParent().getFile() == null) {
+            return null;
+        }
+
         final Path parentPath = project.getParent().getFile().toPath().toAbsolutePath();
         Path parentDirPath = parentPath.getParent();
 
