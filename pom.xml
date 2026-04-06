@@ -52,7 +52,7 @@
         <assertj.version>3.27.7</assertj.version>
         <junit.version>4.13.2</junit.version>
         <maven-artifact.version>3.9.12</maven-artifact.version>
-        <maven-core.version>3.9.12</maven-core.version>
+        <maven-core.version>3.9.14</maven-core.version>
         <maven-model.version>3.9.3</maven-model.version>
         <maven-plugin-annotations.version>3.15.2</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
