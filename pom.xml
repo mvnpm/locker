@@ -59,7 +59,7 @@
         <plexus-utils.version>3.4.2</plexus-utils.version>
         <stax2-api.version>4.2.2</stax2-api.version>
         <woodstox-core.version>7.1.1</woodstox-core.version>
-        <maven-invoker.version>3.2.0</maven-invoker.version>
+        <maven-invoker.version>3.3.0</maven-invoker.version>
         <xmlunit.version>2.11.0</xmlunit.version>
 
         <maven-plugin-testing-harness.version>3.5.0</maven-plugin-testing-harness.version>
